@@ -5,3 +5,7 @@ Tips and node for Magento development
 ```php
 echo $_product->getAttributeText('manufacturer');
 ```
+##### Get block class name
+```php
+Mage::getConfig()->getBlockClassName('catalog/product_view_media');
+```
