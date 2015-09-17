@@ -36,3 +36,21 @@ if ($root = $this->getLayout()->getBlock('root')) {
 </script>
 
 ```
+##### How to specify custom sort order for product collection?
+http://magento.stackexchange.com/questions/10031/how-to-specify-custom-sort-order-for-product-collection
+```php
+/* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
+$collection = Mage::getModel('catalog/product')
+    ->getCollection()
+    ->addAttributeToSelect('*')
+    ->addAttributeToFilter('status', 1)
+    ->addAttributeToFilter('entity_id', array(
+            'in' => $productIds,
+        ));
+
+$collection->getSelect()->order(new Zend_Db_Expr('FIELD(e.entity_id, ' . implode(',', $productIds).')'));
+
+foreach($collection as $product) {
+    var_dump($product->getId());
+}
+```
